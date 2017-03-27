@@ -8,6 +8,8 @@ LEFT = 24
 FORWARD = 18
 BACKWARD = 23
 
+WAIT = 0.005
+
 run = True
 
 GPIO.setup(RIGHT,GPIO.OUT)
