@@ -37,3 +37,7 @@ GPIO.output(FORWARD,False)
 #def moveForward():
 
 #def moveBackward():
+
+#def stop():
+
+#def goStraight():
