@@ -1,5 +1,6 @@
 import time
 import RPi.GPIO as GPIO
+import pygame
 from subprocess import call
 
 class Controller(object):
@@ -9,6 +10,7 @@ class Controller(object):
     LEFT = 24
     FORWARD = 18
     BACKWARD = 23
+    EMERGENT = 14
 
         def __init__(self):
             GPIO.setmode(GPIO.BCM)
@@ -17,6 +19,11 @@ class Controller(object):
             GPIO.setup(LEFT,GPIO.OUT)
             GPIO.setup(FORWARD,GPIO.OUT)
             GPIO.setup(BACKWARD,GPIO.OUT)
+            GPIO.setup(EMERGENT,GPIO.OUT)
+
+            stop()
+            goStraight()
+            GPIO.output(EMERGENT,False)
 
         def turnRight():
             GPIO.output(RIGHT,True)
@@ -41,3 +48,14 @@ class Controller(object):
         def goStraight():
             GPIO.output(RIGHT,False)
             GPIO.output(LEFT,False)
+
+        def emergent():
+            keys = pygame.key.get_pressed()
+            stop()
+            goStraight()
+            GPIO.output(EMERGENT,True)
+            while keys[pygame.K_RETURN]:
+                time.sleep(1)
+                keys = pygame.key.get_pressed()
+            GPIO.output(EMERGENT,False)
+                
