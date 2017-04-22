@@ -7,8 +7,7 @@ class Controller(object):
 
     #Set up constants
     TURN = 25
-    FORWARD = 18
-    BACKWARD = 23
+    MOVE = 25
     EMERGENT = 14
 
     def __init__(self):
@@ -18,8 +17,10 @@ class Controller(object):
         servo = GPIO.PWM(TURN,1000)
         servo.start(50)
             
-        GPIO.setup(FORWARD,GPIO.OUT)
-        GPIO.setup(BACKWARD,GPIO.OUT)
+        GPIO.setup(MOVE,GPIO.OUT)
+        motor = GPIO.PWM(TURN,1000)
+        motor.start(50)
+        
         GPIO.setup(EMERGENT,GPIO.OUT)
 
         stop()
@@ -29,22 +30,12 @@ class Controller(object):
     def turn(percent):
         servo.ChangeDutyCycle(percent)
 
-    def moveForward():
-        GPIO.output(FORWARD,True)
-        GPIO.output(BACKWARD,False)
-
-    def moveBackward():
-        GPIO.output(BACKWARD,True)
-        GPIO.output(FORWARD,False)
-
-    def stop():
-        GPIO.output(FORWARD,False)
-        GPIO.output(BACKWARD,False)
-
+    def move(percent):
+        motor.ChangeDutyCycle(percent)
 
     def emergent():
         keys = pygame.key.get_pressed()
-        stop()
+        move(50)
         turn(50)
         GPIO.output(EMERGENT,True)
         while keys[pygame.K_RETURN]:
